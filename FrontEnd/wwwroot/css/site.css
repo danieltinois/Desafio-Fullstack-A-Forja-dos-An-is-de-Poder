@@ -1,0 +1,26 @@
+body {
+  font-family: "Georgia", serif;
+  background-color: #2e2e2e;
+}
+
+h2 {
+  color: #d4af37;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+form {
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #1c6e32;
+}
+
+footer {
+  background-color: #1c1c1c;
+  padding: 20px;
+}

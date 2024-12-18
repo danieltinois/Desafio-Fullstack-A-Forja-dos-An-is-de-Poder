@@ -1,0 +1,219 @@
+﻿@page
+@model ForjaDosAneisFrontend.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container mt-5">
+    <h2 class="text-center">Lista de Anéis</h2>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addAnelModal">Adicionar Anel</button>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Poder</th>
+                    <th>Portador</th>
+                    <th>Forjado Por</th>
+                    <th>Imagem</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="aneis-list">
+                <!-- Os anéis serão inseridos aqui dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Adicionar Anel -->
+<div class="modal fade" id="addAnelModal" tabindex="-1" aria-labelledby="addAnelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAnelModalLabel">Adicionar Novo Anel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addAnelForm">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="poder" class="form-label">Poder</label>
+                        <input type="text" class="form-control" id="poder" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="portador" class="form-label">Portador</label>
+                        <input type="text" class="form-control" id="portador" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="forjadoPor" class="form-label">Forjado Por</label>
+                        <input type="text" class="form-control" id="forjadoPor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagem" class="form-label">Imagem</label>
+                        <input type="text" class="form-control" id="imagem">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Anel -->
+<div class="modal fade" id="editAnelModal" tabindex="-1" aria-labelledby="editAnelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAnelModalLabel">Editar Anel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAnelForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editNome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="editNome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPoder" class="form-label">Poder</label>
+                        <input type="text" class="form-control" id="editPoder" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPortador" class="form-label">Portador</label>
+                        <input type="text" class="form-control" id="editPortador" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editForjadoPor" class="form-label">Forjado Por</label>
+                        <input type="text" class="form-control" id="editForjadoPor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editImagem" class="form-label">Imagem</label>
+                        <input type="text" class="form-control" id="editImagem">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const API_URL = 'http://localhost:5226/api/anéis';
+
+    // Carregar os anéis
+    async function loadAneis() {
+        const response = await fetch(API_URL);
+        const aneis = await response.json();
+        const anelList = document.getElementById('aneis-list');
+        anelList.innerHTML = '';
+
+        aneis.forEach(anel => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${anel.id}</td>
+                <td>${anel.nome}</td>
+                <td>${anel.poder}</td>
+                <td>${anel.portador}</td>
+                <td>${anel.forjadoPor}</td>
+                <td><img src="${anel.imagem}" alt="${anel.nome}" class="img-fluid" style="max-width: 100px;"></td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="editAnel(${anel.id})">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteAnel(${anel.id})">Excluir</button>
+                </td>
+            `;
+            anelList.appendChild(row);
+        });
+    }
+
+    // Editar anel
+    window.editAnel = async function (id) {
+        const response = await fetch(`${API_URL}/${id}`);
+        const anel = await response.json();
+
+        document.getElementById('editId').value = anel.id;
+        document.getElementById('editNome').value = anel.nome;
+        document.getElementById('editPoder').value = anel.poder;
+        document.getElementById('editPortador').value = anel.portador;
+        document.getElementById('editForjadoPor').value = anel.forjadoPor;
+        document.getElementById('editImagem').value = anel.imagem;
+
+        const editModal = new bootstrap.Modal(document.getElementById('editAnelModal'));
+        editModal.show();
+    };
+
+    // Excluir anel
+    window.deleteAnel = async function (id) {
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        loadAneis();
+    };
+
+    // Adicionar anel
+    document.getElementById('addAnelForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const nome = document.getElementById('nome').value;
+        const poder = document.getElementById('poder').value;
+        const portador = document.getElementById('portador').value;
+        const forjadoPor = document.getElementById('forjadoPor').value;
+        const imagem = document.getElementById('imagem').value;
+
+        const newAnel = { nome, poder, portador, forjadoPor, imagem };
+
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newAnel)
+        });
+
+        // Fechar o modal após salvar
+        const addModal = bootstrap.Modal.getInstance(document.getElementById('addAnelModal'));
+        addModal.hide();
+
+        // Limpar o formulário e recarregar a lista
+        document.getElementById('addAnelForm').reset();
+        loadAneis();
+    });
+
+    // Editar Anel (Atualizar)
+    document.getElementById('editAnelForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const id = document.getElementById('editId').value;
+        const nome = document.getElementById('editNome').value;
+        const poder = document.getElementById('editPoder').value;
+        const portador = document.getElementById('editPortador').value;
+        const forjadoPor = document.getElementById('editForjadoPor').value;
+        const imagem = document.getElementById('editImagem').value;
+
+        const updatedAnel = { id, nome, poder, portador, forjadoPor, imagem };
+
+        await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedAnel)
+        });
+
+        // Fechar o modal após salvar
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editAnelModal'));
+        editModal.hide();
+
+        // Limpar o formulário e recarregar a lista
+        document.getElementById('editAnelForm').reset();
+        loadAneis();
+    });
+
+    // Carregar a lista de anéis ao iniciar
+    loadAneis();
+});
+
+</script>

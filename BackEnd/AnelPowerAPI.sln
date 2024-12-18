@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnelPowerAPI", "AnelPowerAPI.csproj", "{59CE9F91-DE65-4444-8079-920591DCCFAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "..\FrontEnd\FrontEnd.csproj", "{B6ECB44E-F79D-4C45-BA5D-9BFDAFE0D6DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59CE9F91-DE65-4444-8079-920591DCCFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59CE9F91-DE65-4444-8079-920591DCCFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59CE9F91-DE65-4444-8079-920591DCCFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59CE9F91-DE65-4444-8079-920591DCCFAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6ECB44E-F79D-4C45-BA5D-9BFDAFE0D6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6ECB44E-F79D-4C45-BA5D-9BFDAFE0D6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6ECB44E-F79D-4C45-BA5D-9BFDAFE0D6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6ECB44E-F79D-4C45-BA5D-9BFDAFE0D6DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3E329F4-24E6-480E-B261-F7CAF1D567A3}
+	EndGlobalSection
+EndGlobal
